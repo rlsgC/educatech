@@ -1,9 +1,13 @@
 import { useSyncExternalStore } from 'react'
 import { courseCurricula, courses } from './courses'
 import { finalAssessments } from './finalAssessments'
+import { currentProfile, isDemoProfile } from './profile'
 
 const changeEvent = 'educatech:course-state-changed'
-const key = (courseId, field) => `educatech:${field}:${courseId}`
+// La cuenta de prueba conserva sus claves de siempre; cada cuenta nueva guarda su avance aparte.
+const key = (courseId, field) => `educatech:${field}:${courseId}${isDemoProfile ? '' : `:${currentProfile.email}`}`
+// Los estados de ejemplo de los datos (En progreso, Finalizado…) solo valen para la cuenta de prueba.
+const seedStatus = course => (isDemoProfile ? course?.status : null)
 const subscribe = (notify) => {
   window.addEventListener('storage', notify)
   window.addEventListener(changeEvent, notify)
@@ -20,7 +24,7 @@ const save = (courseId, field, value) => {
 export function isCourseEnrolled(course) {
   const stored = window.localStorage.getItem(key(course.id, 'enrolled'))
   return stored === null
-    ? ['En progreso', 'Finalizado', 'Certificado'].includes(course.status)
+    ? ['En progreso', 'Finalizado', 'Certificado'].includes(seedStatus(course))
     : stored === 'true'
 }
 
@@ -36,7 +40,7 @@ export function useEnrolledCourses(courses) {
 export function isCourseAvailable(course) {
   const enrollmentOpen = course.schedule
     ? course.schedule.enrollmentStatus === 'Inscripcion abierta'
-    : ['Disponible', 'En progreso'].includes(course.status)
+    : isDemoProfile ? ['Disponible', 'En progreso'].includes(course.status) : Boolean(course.status)
   return enrollmentOpen && !isCourseEnrolled(course) && !isCourseFinished(course)
 }
 
@@ -46,7 +50,7 @@ export function useAvailableCourses(courses) {
 }
 
 export function isCourseFinished(course) {
-  if (['Finalizado', 'Certificado'].includes(course.status)) return true
+  if (['Finalizado', 'Certificado'].includes(seedStatus(course))) return true
   const lessons = (courseCurricula[course.id] ?? []).flatMap(module => module.lessons)
   const contentComplete = lessons.length > 0 && readCourseProgress(course.id, lessons).completed.length === lessons.length
   return finalAssessments[course.id] ? contentComplete && readFinalAssessment(course.id).passed : contentComplete
@@ -73,7 +77,7 @@ export function readCourseProgress(courseId, lessons) {
     saved = JSON.parse(storedProgress) || {}
   } catch { /* Ignore invalid saved progress. */ }
   const legacyCourseFinished = storedProgress === null
-    && ['Finalizado', 'Certificado'].includes(courses.find(course => course.id === courseId)?.status)
+    && ['Finalizado', 'Certificado'].includes(seedStatus(courses.find(course => course.id === courseId)))
   const completed = legacyCourseFinished
     ? lessons.map(lesson => lesson.id)
     : Array.isArray(saved.completed)

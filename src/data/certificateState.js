@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react'
-import { currentProfile } from './profile'
+import { currentProfile, isDemoProfile } from './profile'
 import { certificates as legacyCertificates } from './resources'
 
 const eventName = 'educatech:certificates-changed'
@@ -26,7 +26,7 @@ export function useCertificates() {
   const stored = useSyncExternalStore(subscribe, snapshot)
   let earned = []
   try { earned = JSON.parse(stored) || [] } catch { /* Ignore malformed prototype storage. */ }
-  return [...legacyCertificates, ...earned]
+  return [...(isDemoProfile ? legacyCertificates : []), ...earned]
 }
 
 export function downloadCertificate(certificate) {

@@ -10,5 +10,5 @@ export const mainLinks = [
 
 export const accountLinks = [
   { to: '/perfil', label: 'Mi perfil y logros', icon: User },
-  { to: '/login', label: 'Cerrar sesión', icon: LogOut },
+  { to: '/salir', label: 'Cerrar sesión', icon: LogOut },
 ]
