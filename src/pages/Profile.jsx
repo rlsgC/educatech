@@ -1,4 +1,4 @@
-import { ArrowRight, Bell, Check, CheckCircle2, Flame, Info, Lightbulb, Mail, MessageSquare, Pencil, School, User, Zap } from 'lucide-react'
+import { ArrowRight, Bell, Check, CheckCircle2, Flame, Info, Lightbulb, LogOut, Mail, MessageSquare, Pencil, School, User, Zap } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import AchievementIcon from '../components/AchievementIcon'
@@ -175,6 +175,10 @@ function Profile() {
             </label>
           ))}
         </section>
+      </div>
+
+      <div className="rd-profile-logout">
+        <Link className="rd-btn rd-btn-ghost" to="/salir"><LogOut size={18} aria-hidden="true" /> Cerrar sesión</Link>
       </div>
 
       {editing && <PreferencesForm mode="edit" initialLevels={preferences.levels} initialAreas={preferences.areas} onSave={save} onCancel={() => setEditing(false)} />}

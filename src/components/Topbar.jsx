@@ -1,7 +1,7 @@
 import { Bell, Search } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { currentProfile } from '../data/profile'
-import { initialsOf } from '../utils/learning'
+import AccountMenu from './AccountMenu'
 import { RobotMark } from './BrandLogo'
 
 function Topbar() {
@@ -21,7 +21,7 @@ function Topbar() {
           <Bell size={19} />
           <span className="topbar-bell-dot" aria-hidden="true" />
         </button>
-        <Link className="avatar" to="/perfil" aria-label="Mi perfil y logros">{initialsOf(currentProfile.fullName) || currentProfile.initials}</Link>
+        <AccountMenu />
         <div className="profile-copy">
           <strong>{currentProfile.fullName}</strong>
           <span>{currentProfile.role}</span>

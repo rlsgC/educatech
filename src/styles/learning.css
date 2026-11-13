@@ -894,3 +894,78 @@ button.rd-temario-idea:hover { background: #FFF3D6; }
 }
 @media (prefers-reduced-motion: reduce) { .rd-reg-chips button { transition: none; } }
 .rd-reg-label { font-style: normal; }
+
+/* ---------- Menú de la cuenta ---------- */
+.rd-account { position: relative; }
+.rd-account-btn { width: 44px; height: 44px; border: 0; border-radius: 14px; color: var(--primary); background: var(--primary-soft); font: inherit; font-size: 14px; font-weight: 800; cursor: pointer; }
+.rd-account-btn[aria-expanded="true"] { color: #fff; background: var(--primary); }
+.rd-account-btn:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+.rd-account-scrim { display: none; }
+.rd-account-menu { position: fixed; right: var(--menu-right, 16px); top: var(--menu-top, 70px); z-index: 60; width: 300px; display: flex; flex-direction: column; gap: 4px; padding: 10px; border: 1px solid var(--border); border-radius: 20px; background: #fff; box-shadow: 0 18px 40px rgba(42, 31, 77, .16); animation: rd-account-in .16s var(--ease-out-strong); }
+.rd-account-who { display: flex; align-items: center; gap: 12px; padding: 8px 8px 12px; border-bottom: 1px solid #EFEBF5; margin-bottom: 4px; }
+.rd-account-who .avatar { width: 42px; height: 42px; flex: none; border-radius: 13px; font-size: 14px; }
+.rd-account-who > span:last-child { display: flex; flex-direction: column; min-width: 0; }
+.rd-account-who strong { font-size: 15px; }
+.rd-account-who small { overflow: hidden; color: #6B6578; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
+.rd-account-item { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 10px; border-radius: 12px; color: var(--text-primary); font-size: 15px; font-weight: 700; text-decoration: none; }
+.rd-account-item svg:last-child:not(:first-child) { margin-left: auto; color: #6B6578; }
+.rd-account-item:hover { background: #F6F2FC; }
+.rd-account-item:focus-visible { outline: 3px solid var(--primary); outline-offset: -3px; }
+.rd-account-item.is-out { color: #9E3355; }
+.rd-account-item.is-out:hover { background: #FBE8EE; }
+@keyframes rd-account-in { from { opacity: 0; transform: translateY(-6px); } }
+.rd-profile-logout { display: flex; justify-content: center; padding: 8px 0 4px; }
+.rd-profile-logout .rd-btn { color: #9E3355; }
+
+/* ---------- Ajustes para celular ---------- */
+@media (max-width: 760px) {
+  .rd-account-scrim { display: block; position: fixed; inset: 0; z-index: 59; background: rgba(31, 26, 51, .35); }
+  .rd-account-menu { left: 0; right: 0; top: auto; bottom: 0; width: auto; padding: 14px 16px calc(18px + env(safe-area-inset-bottom)); border-radius: 24px 24px 0 0; animation-name: rd-sheet-in; }
+  .rd-account-menu::before { content: ''; align-self: center; width: 40px; height: 4px; margin-bottom: 8px; border-radius: 2px; background: #DCD6E8; }
+  .rd-account-item { min-height: 54px; font-size: 16px; }
+}
+@keyframes rd-sheet-in { from { transform: translateY(100%); } }
+@media (max-width: 560px) {
+  /* Mis cursos y Mi carpeta: números de a dos */
+  .rd-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .rd-kpi { gap: 8px; padding: 14px; }
+  .rd-kpi .rd-icon-tile { width: 36px; height: 36px; border-radius: 11px; }
+  .rd-kpi strong { font-size: 22px; }
+  .rd-folder-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .rd-folder-stats > div { flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px 14px; }
+  .rd-folder-stats > div:last-child:nth-child(odd) { grid-column: 1 / -1; flex-direction: row; align-items: center; }
+  .rd-folder-stats strong { font-size: 22px; }
+  /* Lección: el video primero */
+  .rd-lesson-hero-robot { display: none; }
+  /* Catálogo: los tres estados de puntaje en una fila compacta */
+  .rd-catalog-legend { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .rd-catalog-legend > div { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px; border-radius: 14px; }
+  .rd-catalog-legend small { display: none; }
+  .rd-catalog-legend strong { font-size: 13px; line-height: 1.25; }
+  .rd-catalog-legend .rd-step-tile { width: 32px; height: 32px; border-radius: 10px; }
+  .rd-catalog-grid .rd-cover { min-height: 0; height: 104px; }
+  /* Recursos: destacado más corto y carpetas de a dos */
+  .rd-hero-resources { min-height: 0; }
+  .rd-hero-resources .rd-hero-copy > p, .rd-hero-resources .rd-hero-stats { display: none; }
+  .rd-rf-folders { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 10px; }
+  .rd-rf-folder { gap: 10px; padding: 14px; border-radius: 4px 18px 18px 18px; }
+  .rd-rf-folder::before { top: -12px; height: 20px; }
+  .rd-rf-folder > strong { min-height: 0; font-size: 15px; }
+  .rd-rf-folder-icon { width: 38px; height: 38px; border-radius: 12px; }
+  .rd-rf-folder-icon svg { width: 18px; height: 18px; }
+  .rd-rf-folder-top { flex-wrap: wrap; }
+  .rd-rf-status { font-size: 11.5px; padding: 3px 8px; }
+  .rd-rf-counts { flex-direction: column; gap: 4px; }
+  .rd-rf-counts > span { padding: 3px 8px; font-size: 12.5px; }
+  .rd-rf-folder-foot { font-size: 13.5px; }
+  /* Perfil: insignias de a dos y aviso de chispas legible */
+  .rd-profile-badge-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .rd-profile-level-note { display: block; }
+  .rd-profile-level-note svg { display: inline; vertical-align: -3px; margin-right: 6px; }
+  /* Detalle del curso: cómo es el curso de a dos */
+  .rd-cd-how > div { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .rd-cd-how > div > div { padding: 14px; }
+  .rd-profile-impact-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .rd-profile-impact-stats > * { padding: 12px 10px; }
+}
+@media (prefers-reduced-motion: reduce) { .rd-account-menu { animation: none; } }
